@@ -5,6 +5,7 @@ method = ""
 on = True
 def buildTK(window):
     
+    ### Off On button
     def OnOff():
         global on
         if on:
@@ -18,6 +19,7 @@ def buildTK(window):
             for b in all_but:
                 b["state"] = "normal"
 
+    ### All num Buttons
     def numBut1():
         if method == "equals":
             results["text"] = "1"
@@ -69,6 +71,7 @@ def buildTK(window):
         else:
             results["text"] += "0"
 
+    ### All math funcs Buttons
     def add():
         global value
         global method
@@ -93,13 +96,13 @@ def buildTK(window):
         method = "mul"
         value = float(results["text"])
         results["text"] = ""
-
     def dec():
         if method == "equals":
             results["text"] = "."
         else:
             results["text"] += "."
 
+    ### Equal Button
     def equals():
         global value
         global method
@@ -115,6 +118,7 @@ def buildTK(window):
         results["text"] = str(res)
         value = 0
 
+    ### Clear button
     def clear():
         global value
         global method
@@ -122,50 +126,31 @@ def buildTK(window):
         method = ""
         results["text"] = ""
 
-    num_butCommands = [numBut1,numBut2,numBut3,numBut4,numBut5,numBut6,numBut7,numBut8,numBut9]
+    ### Make all buttons
+    num_butCommands = [numBut1,numBut2,numBut3,numBut4,numBut5,numBut6,numBut7,numBut8,numBut9, numBut0, div, mul, sub, add , dec, equals]
     
     all_but = []
 
     botFrame = tk.Frame(master=window)
-    x = 1
-    for i in range(3):
-        for j in range(3):
-            frame = tk.Frame(
-                master=botFrame,
-                relief=tk.RAISED,
-                borderwidth=1
-            )
-            frame.grid(row=i+1, column=j, padx=5, pady=5)
 
-            button = tk.Button(master=frame, text=x, command=num_butCommands[x-1])
-            all_but.append(button)
-            x += 1
-            button.pack(padx=5, pady=5)
+    rowNum = [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 2, 2, 3, 3, 4, 4]
+    colNum = [0, 1, 2, 0, 1, 2, 0, 1, 2, 1, 3, 4, 4, 3, 4, 3]
+    textNum = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '/', "*", "-", "+", ".", "="]
+    x = 0
+    for bC in num_butCommands:
+        frame = tk.Frame(
+            master=botFrame,
+            relief=tk.RAISED,
+            borderwidth=1
+        )
+        frame.grid(row=rowNum[x], column=colNum[x], padx=5, pady=5)
 
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=4, column=1, padx=5, pady=5,)
+        button = tk.Button(master=frame, text=textNum[x], command=bC)
+        all_but.append(button)
+        x += 1
+        button.pack(padx=5, pady=5)
 
-    button = tk.Button(master=frame, text=0, command=numBut0)
-    all_but.append(button)
-
-    button.pack(padx=5, pady=5)
-
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=2, column=3, padx=5, pady=5)
-
-    button = tk.Button(master=frame, text="/", command=div)
-    all_but.append(button)
-
-    button.pack(padx=5, pady=5)
-
+    ### Clear Buttons
     frame = tk.Frame(
         master=botFrame,
         relief=tk.RAISED,
@@ -174,66 +159,10 @@ def buildTK(window):
     frame.grid(row=1, column=3, columnspan=2, padx=5, pady=5)
 
     button = tk.Button(master=frame, text="C", command=clear)
-    all_but.append(button)
 
     button.pack(padx=30, pady=5)
 
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=2, column=4, padx=5, pady=5)
-
-    button = tk.Button(master=frame, text="*", command=mul)
-    all_but.append(button)
-
-    button.pack(padx=5, pady=5)
-
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=3, column=4, padx=5, pady=5)
-
-    button = tk.Button(master=frame, text="-", command=sub)
-    all_but.append(button)
-    button.pack(padx=5, pady=5)
-
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=3, column=3, padx=5, pady=5)
-
-    button = tk.Button(master=frame, text="+", command=add)
-    all_but.append(button)
-    button.pack(padx=5, pady=5)
-
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=4, column=4, padx=5, pady=5)
-
-    button = tk.Button(master=frame, text=".", command=dec)
-    all_but.append(button)
-    button.pack(padx=5, pady=5)
-
-    frame = tk.Frame(
-        master=botFrame,
-        relief=tk.RAISED,
-        borderwidth=1
-    )
-    frame.grid(row=4, column=3, padx=5, pady=5)
-
-    button = tk.Button(master=frame, text="=", command=equals)
-    all_but.append(button)
-    button.pack(padx=5, pady=5)
-
+    ### On Off Button
     frame = tk.Frame(
         master=botFrame,
         relief=tk.RAISED,
@@ -244,6 +173,7 @@ def buildTK(window):
     button = tk.Button(master=frame, text="O/F", command=OnOff)
     button.pack(padx=5, pady=5)
 
+    ### Make Result Label
     topFrame = tk.Frame(master=window)
 
     rFrame = tk.Frame(
